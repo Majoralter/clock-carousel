@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "colorthief": "^2.4.0",
-    "open-props": "^1.7.4"
+    "open-props": "^1.7.4",
+    "tinycolor2": "^1.6.0"
   }
 }

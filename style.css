@@ -1,5 +1,9 @@
 @import "https://unpkg.com/open-props";
-@import url('https://fonts.googleapis.com/css2?family=Sedan+SC&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Sedan+SC&display=swap");
+
+:root {
+  --color: #f9f7f3;
+}
 
 *,
 *::after,
@@ -12,10 +16,9 @@
 
 body {
   min-height: 100%;
-  background-color: #130501;
   background-size: 40px 40px;
-  background-image: linear-gradient(to right, #270A02 1px, transparent 1px),
-    linear-gradient(to bottom, #270A02 1px, transparent 1px);
+  /* background-image: linear-gradient(to right, #270A02 1px, transparent 1px),
+    linear-gradient(to bottom, #270A02 1px, transparent 1px); */
 }
 
 body,
@@ -23,65 +26,77 @@ html {
   overflow: hidden;
 }
 
+canvas {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  /* background-color: black; */
+  pointer-events: none;
+  z-index: 1;
+}
+
 #app {
+  position: relative;
   height: 100dvh;
   width: 100dvw;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.3s var(--ease-3);
 }
 
-#images{
+#images {
   position: relative;
   width: 700px;
   height: 60%;
 }
 
-#images img{
+#images img {
   width: 100%;
   height: 100%;
   position: absolute;
   object-fit: cover;
   opacity: 0;
-  transition: all .5s var(--ease-3);
+  transition: all 0.5s var(--ease-3);
   scale: 1.1;
   cursor: pointer;
 }
 
-#img.active{
+#img.active {
   opacity: 1;
   scale: 1;
 }
 
 #clock {
   position: absolute;
-  pointer-events: none;
+  /* pointer-events: none; */
   height: 200px;
   width: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='100' ry='100' stroke='%23F9F7F3FF' stroke-width='10' stroke-dasharray='2%2c 8' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");
+  background-color: var(--color);
+  mask-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='100' ry='100' stroke='%23F9F7F3FF' stroke-width='15' stroke-dasharray='2%2c 8' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");
   border-radius: var(--radius-round);
   transform: scale(3);
-  mix-blend-mode: difference;
-  opacity: 0.5;
-  /* border-top: solid 50px white; */
+  /* mix-blend-mode: exclusion; */
+  /* opacity: 0.5; */
 }
 
 .center-point {
-  position: relative;
-  height: 10px;
-  width: 10px;
-  /* background-color: #f9f7f3; */
-  border-radius: var(--radius-round);
+  position: absolute;
+  height: 20px;
+  width: 20px;
+
+  z-index: 100;
 }
 
 .secs-hand {
   position: absolute;
-  height: 500px;
-  width: 0.01cm;
-  background-color: #f9f7f3;
+  height: 200dvh;
+  width: 0.05cm;
+  background-color: var(--color);
   bottom: 50%;
   left: 50%;
   transform: translate(-50%, -5%);
@@ -91,12 +106,20 @@ html {
 
 .min-hand {
   position: absolute;
-  height: 100px;
-  width: 0.01cm;
-  background-color: #f9f7f3;
+  height: 300px;
+  width: 0.05cm;
+  background-color: var(--color);
   bottom: 50%;
   left: 50%;
   transform: translate(-50%, -5%);
   transform-origin: bottom;
   mix-blend-mode: difference;
+}
+
+.slide-indicator {
+  position: absolute;
+  right: 1em;
+  bottom: 1em;
+  font-size: var(--font-size-2);
+  color: var(--color);
 }

@@ -6,6 +6,7 @@
     <title>Vite App</title>
   </head>
   <body>
+    <canvas id="canvas" width="700px" height="700px"></canvas>
     <div id="app">
       <div id="images">
         <img id="img" src="/images/andrey-stakhovskiy-drz8KfA-bjE-unsplash.jpg" alt="">
@@ -18,13 +19,16 @@
         <img id="img" src="/images/usgs-ez8ubkA4wFY-unsplash.jpg" alt="">
       </div>
       <div id="clock">
-        <div class="center-point">
+        <!-- <div class="rotator"></div> -->
+      </div>
+
+       <div class="center-point">
         <div class="secs-hand"></div>
         <div class="min-hand"></div>
         </div>
-        
-      </div>
+
+      <div class="slide-indicator"></div>
     </div>
-    <script type="module" src="/main.js"></script>
+    <script defer type="module" src="/main.js"></script>
   </body>
 </html>

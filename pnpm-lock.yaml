@@ -11,6 +11,9 @@ dependencies:
   open-props:
     specifier: ^1.7.4
     version: 1.7.4
+  tinycolor2:
+    specifier: ^1.6.0
+    version: 1.6.0
 
 devDependencies:
   vite:
@@ -786,6 +789,10 @@ packages:
 
   /through@2.3.8:
     resolution: {integrity: sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==}
+    dev: false
+
+  /tinycolor2@1.6.0:
+    resolution: {integrity: sha512-XPaBkWQJdsf3pLKJV9p4qN/S+fm2Oj8AIPo1BTUhg5oxkvm9+SVEGFdhyOz7tTdUTfvxMiAs4sp6/eZO2Ew+pw==}
     dev: false
 
   /tough-cookie@2.5.0:

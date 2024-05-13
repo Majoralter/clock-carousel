@@ -1,11 +1,29 @@
 import "./style.css";
 import ColorThief from "./node_modules/colorthief/dist/color-thief.mjs";
+import tinycolor from "tinycolor2";
+
+const canvas = document.getElementById("canvas"),
+  ctx = canvas.getContext("2d"),
+  cw = canvas.width,
+  ch = canvas.height;
+
+ctx.lineWidth = 30;
+ctx.strokeStyle = "#FFFFFF";
+
+let cx = cw / 2,
+  cy = ch / 2,
+  PI = Math.PI,
+  a = 0,
+  direction = 1,
+  radius = cw / 2 - 60;
 
 const secsHand = document.querySelector(".secs-hand"),
   minsHand = document.querySelector(".min-hand"),
   images = Array.from(document.querySelectorAll("#img")),
-  app = document.getElementById("app"),
-  colorThief = new ColorThief();
+  colorThief = new ColorThief(),
+  slideIndicator = document.querySelector(".slide-indicator");
+
+const root = document.querySelector(":root");
 
 let angle = 0,
   minAngle = 0,
@@ -17,12 +35,39 @@ const roundNumber = (num) => {
 };
 
 const getColors = async () => {
-  images.forEach((image) => {
-    hexCodesArray.push(colorThief.getColor(image));
-  });
+  for (let i = 0; i < images.length; i++) {
+    if (images[i].complete) {
+      hexCodesArray.push(colorThief.getColor(images[i]));
+    } else {
+      images[i].addEventListener("load", () => {
+        hexCodesArray.push(colorThief.getColor(images[i]));
+      });
+    }
+  }
+};
+
+const draw = (s, e) => {
+  var counterclockwise = direction > 0 ? false : true;
+  // var s = -PI / 2;
+  // var e = a;
+  ctx.beginPath();
+  ctx.arc(cx, cy, radius, s, e, counterclockwise);
+  ctx.stroke();
 };
 
 const carouselControls = async () => {
+  // a += PI / 120;
+
+  // // if(a > (angle * (PI / 180) - 1.5) + )
+
+  // // console.log(a)
+
+  // if (a < 0 || a > ) {
+  //   a = 0;
+  //   direction *= -1;
+  // }
+
+  draw();
   let angRad = 2 * Math.PI;
 
   // Set mins hand rotation angle based on a complete revolution of the seconds hand
@@ -56,11 +101,44 @@ const carouselControls = async () => {
   // the value 0.19 is specific I know but there's a bug with 270deg and this is the best way to fix it for now, I don't think it
   // affects the code much. "Boo! it's 0.19" "arghh!" lol ;)
   if (angleDecimal < 0.19 && angle % 45 < 0.2) {
+    ctx.clearRect(0, 0, cw, ch);
+    let startAngle = angle * (PI / 180) - 1.5;
+
+    // a += PI/120
+    let endAngle = startAngle + PI / 4;
+
+    // if (a > fixedEndAngle) {
+    //   a = fixedEndAngle
+    // }
+
+    // let endAngle = startAngle;
+    // endAngle += 0.1;
+    // if (endAngle > fixedEndAngle) {
+    //   endAngle = fixedEndAngle;
+    // }
+
+    // console.log(startAngle, a);
+
+    let bgColor = `rgb(${hexCodesArray[currentImageIndex][0]},${hexCodesArray[currentImageIndex][1]},${hexCodesArray[currentImageIndex][2]})`,
+      color = tinycolor(bgColor);
+
+    ctx.strokeStyle = bgColor;
+    draw(startAngle, endAngle);
+
     // the basic transition logic for the images pretty easy to understand
     // console.log(angle)
     for (let image of images) image.classList.remove("active");
+    slideIndicator.textContent = `0${currentImageIndex + 1} / 0${
+      images.length
+    }`;
 
-    app.style.backgroundColor = `rgb(${hexCodesArray[currentImageIndex][0]},${hexCodesArray[currentImageIndex][1]},${hexCodesArray[currentImageIndex][2]})`;
+    document.body.style.backgroundColor = bgColor;
+
+    if (color.isDark()) {
+      root.style.setProperty("--color", "#f9f7f3");
+    } else {
+      root.style.setProperty("--color", "#676567");
+    }
 
     images[currentImageIndex].classList.add("active");
     // increment and reset currentImageIndex
@@ -73,4 +151,4 @@ const carouselControls = async () => {
 
 requestAnimationFrame(carouselControls);
 
-getColors();
+window.addEventListener("DOMContentLoaded", getColors);
