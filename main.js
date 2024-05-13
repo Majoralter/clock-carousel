@@ -46,29 +46,22 @@ const getColors = async () => {
   }
 };
 
-const draw = (s, e) => {
+const draw = (sa, ea) => {
   var counterclockwise = direction > 0 ? false : true;
-  // var s = -PI / 2;
-  // var e = a;
   ctx.beginPath();
-  ctx.arc(cx, cy, radius, s, e, counterclockwise);
+  ctx.arc(cx, cy, radius, sa, ea, counterclockwise);
   ctx.stroke();
 };
 
 const carouselControls = async () => {
-  // a += PI / 120;
+  let angRad = 2 * Math.PI,
+    startAngle,
+    endAngle;
 
-  // // if(a > (angle * (PI / 180) - 1.5) + )
-
-  // // console.log(a)
-
-  // if (a < 0 || a > ) {
+  // if (a < 0 || a > PI * 2) {
   //   a = 0;
   //   direction *= -1;
   // }
-
-  draw();
-  let angRad = 2 * Math.PI;
 
   // Set mins hand rotation angle based on a complete revolution of the seconds hand
   if (angle === 0) {
@@ -102,28 +95,13 @@ const carouselControls = async () => {
   // affects the code much. "Boo! it's 0.19" "arghh!" lol ;)
   if (angleDecimal < 0.19 && angle % 45 < 0.2) {
     ctx.clearRect(0, 0, cw, ch);
-    let startAngle = angle * (PI / 180) - 1.5;
+    startAngle = angle * (PI / 180) - 1.5 - 0.1;
 
-    // a += PI/120
-    let endAngle = startAngle + PI / 4;
-
-    // if (a > fixedEndAngle) {
-    //   a = fixedEndAngle
-    // }
-
-    // let endAngle = startAngle;
-    // endAngle += 0.1;
-    // if (endAngle > fixedEndAngle) {
-    //   endAngle = fixedEndAngle;
-    // }
-
-    // console.log(startAngle, a);
+    a += PI / 120;
+    endAngle = startAngle + PI / 4;
 
     let bgColor = `rgb(${hexCodesArray[currentImageIndex][0]},${hexCodesArray[currentImageIndex][1]},${hexCodesArray[currentImageIndex][2]})`,
       color = tinycolor(bgColor);
-
-    ctx.strokeStyle = bgColor;
-    draw(startAngle, endAngle);
 
     // the basic transition logic for the images pretty easy to understand
     // console.log(angle)
@@ -144,9 +122,14 @@ const carouselControls = async () => {
     // increment and reset currentImageIndex
     currentImageIndex += 1;
     if (currentImageIndex === images.length) currentImageIndex = 0;
+
+    // ctx.strokeStyle = bgColor;
+    draw(startAngle, endAngle);
   }
 
   requestAnimationFrame(carouselControls);
+
+  // console.log(startAngle, endAngle, a);
 };
 
 requestAnimationFrame(carouselControls);
