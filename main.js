@@ -54,9 +54,7 @@ const draw = (sa, ea) => {
 };
 
 const carouselControls = async () => {
-  let angRad = 2 * Math.PI,
-    startAngle,
-    endAngle;
+  let startAngle, endAngle;
 
   // if (a < 0 || a > PI * 2) {
   //   a = 0;
@@ -84,7 +82,7 @@ const carouselControls = async () => {
 
   // increment angle by o.1 every 10ms in setInterval below, rotate seconds hand by the value of angle in clockwise direction
   // change += to -= for anticlockwise movement but init angle to 360 instead of 0
-  angle += Math.cos(angRad) / 10;
+  angle += 0.1;
   secsHand.style.transform = `rotate(${angle}deg)`;
   // reset angle to 0 if greater than 360 to accurately get multiples of 45 within 360deg
   if (angle > 360) angle = 0;
@@ -123,7 +121,7 @@ const carouselControls = async () => {
     currentImageIndex += 1;
     if (currentImageIndex === images.length) currentImageIndex = 0;
 
-    // ctx.strokeStyle = bgColor;
+    ctx.strokeStyle = bgColor;
     draw(startAngle, endAngle);
   }
 
